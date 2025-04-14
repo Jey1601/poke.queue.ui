@@ -1,6 +1,8 @@
+import settings from "@/lib/settings";
+
 export async function getReports() {
     try {
-      const response = await fetch("https://api-pokequeue-dev.azurewebsites.net/api/request")
+      const response = await fetch(`${settings.URL}/api/request`)
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status} - ${response.statusText}`)
@@ -18,7 +20,7 @@ export async function getReports() {
 
   export async function createReport(pokemonType) {
     try {
-      const response = await fetch("https://api-pokequeue-dev.azurewebsites.net/api/request", {
+      const response = await fetch(`${settings.URL}/api/request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
