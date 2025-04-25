@@ -1,13 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Download, RefreshCw, ArrowUpDown } from "lucide-react"
+import { Download, RefreshCw, ArrowUpDown, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default function ReportsTable({ reports, loading, onRefresh, onDownload }) {
+export default function ReportsTable({ reports, loading, onRefresh, onDownload, onDelete }) {
   const [refreshing, setRefreshing] = useState(false)
   const [sortedReports, setSortedReports] = useState([])
   const [sortDirection, setSortDirection] = useState("desc") // "desc" para descendente (más reciente primero)
@@ -89,6 +89,21 @@ export default function ReportsTable({ reports, loading, onRefresh, onDownload }
     }
     onDownload(url)
   }
+
+  // Manejar la eliminación del reporte
+const handleDelete = async (report) => {
+  const reportId = getPropertyValue(report, "reportId");
+
+  if (confirm(`Estás seguro que quieres eliminar el reporte ${reportId}?`)) {
+    try {
+      
+      onDelete(reportId)
+    } catch (error) {
+      console.error("Error al eliminar el reporte:", error);
+      alert("Hubo un error al eliminar el reporte. Intenta nuevamente.");
+    }
+  }
+};
 
   // Manejar el refresco de la tabla
   const handleRefresh = async () => {
@@ -180,7 +195,16 @@ export default function ReportsTable({ reports, loading, onRefresh, onDownload }
                       <Button variant="ghost" size="icon" onClick={() => handleDownload(report)} title="Download CSV">
                         <Download className="h-4 w-4" />
                       </Button>
+                  
                     )}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(report)}
+                      title="Delete Report"
+                    >
+                      <Trash2 className="h-4 w-4 text-red-600" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))

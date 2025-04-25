@@ -18,7 +18,7 @@ export async function getReports() {
     }
   }
 
-  export async function createReport(pokemonType) {
+  export async function createReport(pokemonType, pokemonQty) {
     try {
       const response = await fetch(`${settings.URL}/api/request`, {
         method: "POST",
@@ -27,6 +27,7 @@ export async function getReports() {
         },
         body: JSON.stringify({
           pokemon_type: pokemonType,
+          pokemon_qty: pokemonQty
         }),
       })
 
@@ -40,6 +41,26 @@ export async function getReports() {
       return data
     } catch (error) {
       console.error("Error creating report:", error)
+      throw error
+    }
+  }
+
+  export async function deleteReport(reportId) {
+    try {
+      const response = await fetch(`${settings.URL}/api/report/${reportId}`, {
+        method: "DELETE",
+      })
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`)
+      }
+  
+      const data = await response.json()
+      console.log("API Response (DELETE):", data) // Para depuración
+  
+      return data
+    } catch (error) {
+      console.error(`Error deleting report #${reportId}:`, error)
       throw error
     }
   }
