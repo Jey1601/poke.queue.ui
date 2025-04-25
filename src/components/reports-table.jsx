@@ -164,6 +164,7 @@ const handleDelete = async (report) => {
               <TableHead className="w-[100px]">ReportId</TableHead>
               <TableHead className="w-[120px]">Status</TableHead>
               <TableHead className="w-[150px]">PokemonType</TableHead>
+              <TableHead className="w-[200px]">Sample Size</TableHead>
               <TableHead className="w-[200px]">Created</TableHead>
               <TableHead className="w-[200px]">
                 <div className="flex items-center">Updated</div>
@@ -187,6 +188,9 @@ const handleDelete = async (report) => {
                   </TableCell>
                   <TableCell>
                     <span className="capitalize">{getPropertyValue(report, "pokemonType")}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="capitalize">{getPropertyValue(report, "pokemonQty")}</span>
                   </TableCell>
                   <TableCell>{getPropertyValue(report, "created")}</TableCell>
                   <TableCell>{getPropertyValue(report, "updated")}</TableCell>
